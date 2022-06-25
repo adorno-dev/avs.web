@@ -2,6 +2,8 @@ import { useContext } from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { Authorized } from "../components/authorized"
+import { Chat } from "../components/chat"
+import { ContactList } from "../components/contact-list"
 import { UserContext } from "../contexts/user-context"
 
 export const Main = () =>
@@ -18,14 +20,16 @@ export const Main = () =>
                 </Toolbar>
             </Navbar>
             <Placeholder>
-                Content goes here.
+                <ContactList />
             </Placeholder>
+            <Chat />
         </Container>
     )
 }
 
 const Container = styled.div`
     display: flex;
+    position: relative;
     flex-direction: column;
     width: 100vw;
     height: 100vh;

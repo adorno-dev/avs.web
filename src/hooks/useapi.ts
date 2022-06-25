@@ -27,3 +27,16 @@ export const signup = async (data: {[k: string]: FormDataEntryValue}) =>
 
     return response;
 }
+
+export const contactList = async () =>
+{
+    const response = await fetch("https://localhost:5000/api/users",
+    {
+        method: "GET",
+        headers: headers
+    })
+    .then(res => res.json())
+    .then(res => res);
+
+    return response;
+}
