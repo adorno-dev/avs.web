@@ -49,7 +49,7 @@ const state: User = {
     signin: async (event: FormEvent<HTMLFormElement>) => {
         await signin(userDataHandler(event)).then(async response =>
             {
-                if (response.status == 200) {
+                if (response.status === 200) {
                     state.authentication = await response.json();
                     localStorage.setItem("authentication", JSON.stringify(state.authentication));
 
@@ -64,7 +64,7 @@ const state: User = {
     signup: async (event: FormEvent<HTMLFormElement>) => {
         await signup(userDataHandler(event))
             .then(async (response) => {
-                if (response.status != 204) {
+                if (response.status !== 204) {
                     state.exception = await response.json();
                     localStorage.setItem("exception", JSON.stringify(state.exception));
                 } else {

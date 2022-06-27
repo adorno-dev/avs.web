@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import { useEffect, useState } from "react"
 import { contactList } from "../hooks/useapi"
+import { Link } from "react-router-dom"
 
 type Contact = {
     id: string,
@@ -20,7 +21,7 @@ export const ContactList = () =>
     return <>
         <Contacts>
             <h3>Contacts</h3>
-            {contacts.map(m => <a key={m.id}>{m.username}</a>)}
+            {contacts.map(m => <Link to="/" key={m.id}>{m.username}</Link>)}
         </Contacts>
     </>
 }
