@@ -8,8 +8,6 @@ export const signin = async (data: {[k: string]: FormDataEntryValue}) =>
         headers: headers,
         body: JSON.stringify(data)
     })
-    .then(res => res.json())
-    .then(res => res);
 
     return response;
 }
@@ -22,9 +20,6 @@ export const signup = async (data: {[k: string]: FormDataEntryValue}) =>
         headers: headers,
         body: JSON.stringify(data)
     })
-    .then(res => res.json())
-    .then(res => res);
-
     return response;
 }
 
@@ -35,8 +30,6 @@ export const contactList = async () =>
         method: "GET",
         headers: headers
     })
-    .then(res => res.json())
-    .then(res => res);
 
-    return response;
+    return await response.json();
 }

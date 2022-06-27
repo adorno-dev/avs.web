@@ -9,9 +9,6 @@ type Contact = {
 
 export const ContactList = () =>
 {
-    // const [contactList, setContactList] = useState<Array<Contact>>([])
-    // const load = async () => setContactList(await contacts())
-
     const [contacts, setContacts] = useState<Array<Contact>>([])
     const fetch = async () => setContacts(await contactList())
 
@@ -33,7 +30,8 @@ const Contacts = styled.div`
     flex-direction: column;
     background: lightgray;
     width: 300px;
-    height: 100vh;
+    bottom: 0;
+    height: calc(100vh - 65px);
     position: absolute;
     right: 0;
 
@@ -50,18 +48,3 @@ const Contacts = styled.div`
         border-bottom: 1px solid rgba(0,0,0,0.1);
     }
 `
-
-// const Contacts = styled.ul`
-//     position: absolute;
-//     right: 0;
-//     height: 100vh;
-//     list-style: none;
-//     display: flex;
-//     flex-direction: column;
-//     width: 300px;
-//     background: #f3f3f3;
-//     li {
-//         padding: 10px;
-//         border-bottom: 1px solid rgba(0,0,0,0.2);
-//     }
-// `

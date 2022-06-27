@@ -2,19 +2,20 @@ import { createContext, FormEvent, ReactNode } from "react";
 import { signin, signup } from "../hooks/useapi";
 
 type User = {
-    authentication: AuthenticationSuccess | AuthenticationFailure | undefined
+    authentication: Authentication | undefined,
+    exception: Exception | undefined,
     signin: (event: FormEvent<HTMLFormElement>) => void,
     signup: (event: FormEvent<HTMLFormElement>) => void,
     signout: () => void
 }
 
-type AuthenticationSuccess = {
+type Authentication = {
     token: string,
     refreshToken: string
 }
 
-export type AuthenticationFailure = {
-    errors: string[],
+export type Exception = {
+    errors?: string[],
     message: string
 }
 
@@ -24,10 +25,16 @@ export const userAuthenticationChecker = () => {
     if (authentication === null) return undefined
 
     if (authentication.indexOf("token") > -1)
-        return JSON.parse(authentication) as AuthenticationSuccess
+        return JSON.parse(authentication) as Authentication
+}
 
-    else if (authentication.indexOf("errors") > -1)
-        return JSON.parse(authentication) as AuthenticationFailure
+export const userExceptionChecker = () => {
+    const exception = localStorage.getItem("exception")
+
+    if (exception === null) return undefined
+
+    if (exception.indexOf("message") > -1)
+        return JSON.parse(exception) as Exception
 }
 
 const userDataHandler = (event: FormEvent<HTMLFormElement>) => {
@@ -38,35 +45,33 @@ const userDataHandler = (event: FormEvent<HTMLFormElement>) => {
 
 const state: User = {
     authentication: undefined,
+    exception: undefined,
     signin: async (event: FormEvent<HTMLFormElement>) => {
-        await signin(userDataHandler(event)).then(response =>
+        await signin(userDataHandler(event)).then(async response =>
             {
-                if (response.token !== undefined && response.refreshToken !== undefined)
-                {
-                    state.authentication = {token: response.token, refreshToken: response.refreshToken};
+                if (response.status == 200) {
+                    state.authentication = await response.json();
                     localStorage.setItem("authentication", JSON.stringify(state.authentication));
-                }
-                else
-                {
-                    state.authentication = {message: response.message || response.title, errors: response.errors || undefined};
-                    // console.log(state.authentication);
+
+                    state.exception = undefined;
+                    localStorage.removeItem("exception");
+                } else {
+                    state.exception = await response.json();
+                    localStorage.setItem("exception", JSON.stringify(state.exception));
                 }
             });
     },
     signup: async (event: FormEvent<HTMLFormElement>) => {
-        await signup(userDataHandler(event)).then(response =>
-            {
-                if (response.token !== undefined && response.refreshToken !== undefined)
-                {
-                    state.authentication = {token: response.token, refreshToken: response.refreshToken};
-                    localStorage.setItem("authentication", JSON.stringify(state.authentication));
+        await signup(userDataHandler(event))
+            .then(async (response) => {
+                if (response.status != 204) {
+                    state.exception = await response.json();
+                    localStorage.setItem("exception", JSON.stringify(state.exception));
+                } else {
+                    state.exception = undefined;
+                    localStorage.removeItem("exception");
                 }
-                else
-                {
-                    state.authentication = {message: response.message || response.title, errors: response.errors || undefined};
-                    // console.log(state.authentication);
-                }
-            });
+            })
     },
     signout: async () => {
         state.authentication = undefined;
