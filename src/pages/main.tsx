@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { Authorized } from "../components/authorized"
@@ -9,6 +9,9 @@ import { UserContext } from "../contexts/user-context"
 export const Main = () =>
 {
     const context = useContext(UserContext);
+    
+    const [chatOpened, setChatOpened] = useState<boolean>();
+
     return (
         <Container>
             <Authorized />
@@ -22,7 +25,9 @@ export const Main = () =>
             <Placeholder>
                 <ContactList />
             </Placeholder>
-            <Chat />
+            {
+                chatOpened && <Chat />
+            }
         </Container>
     )
 }

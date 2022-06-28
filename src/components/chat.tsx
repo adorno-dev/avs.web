@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { chatIndex } from "../hooks/useapi"
 
 export const Chat = () =>
 {
@@ -13,6 +14,7 @@ export const Chat = () =>
             </Body>
             <Footer>
                 <input type="text" placeholder="Your message..." />
+                <button onClick={chatIndex}>Toggle</button>
             </Footer>
         </Window>
     )
@@ -64,8 +66,14 @@ const Body = styled.div`
 `
 
 const Footer = styled.div`
+    display: flex;
     input {
         width: 100%;
+        padding: 10px 20px;
+    }
+
+    button {
+        margin-left: 5px;
         padding: 10px 20px;
     }
 `
