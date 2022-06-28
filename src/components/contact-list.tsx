@@ -21,7 +21,9 @@ export const ContactList = () =>
     return <>
         <Contacts>
             <h3>Contacts</h3>
-            {contacts.map(m => <Link to="/" key={m.id}>{m.username}</Link>)}
+            <div>
+                {contacts.map(m => <Link to="/" key={m.id}>{m.username}</Link>)}
+            </div>
         </Contacts>
     </>
 }
@@ -35,6 +37,12 @@ const Contacts = styled.div`
     height: calc(100vh - 65px);
     position: absolute;
     right: 0;
+
+    div {
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+    }
 
     h3 {
         border-top-left-radius: 10px;
