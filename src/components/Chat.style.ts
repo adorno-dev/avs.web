@@ -1,26 +1,6 @@
 import styled from "styled-components"
-import { chatIndex } from "../hooks/useapi"
 
-export const Chat = () =>
-{
-    return (
-        <Window>
-            <Titlebar>
-                <h3>[Contact's Name]</h3>
-                <h3>X</h3>
-            </Titlebar>
-            <Body>
-                ..
-            </Body>
-            <Footer>
-                <input type="text" placeholder="Your message..." />
-                <button onClick={chatIndex}>Toggle</button>
-            </Footer>
-        </Window>
-    )
-}
-
-const Window = styled.div`
+export const Window = styled.div`
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -47,7 +27,7 @@ const Window = styled.div`
     box-shadow: 0 0 25px rgba(0,0,0,.2);
 `
 
-const Titlebar = styled.div`
+export const Titlebar = styled.div`
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 
@@ -60,12 +40,12 @@ const Titlebar = styled.div`
     justify-content: space-between;
 `
 
-const Body = styled.div`
+export const Body = styled.div`
     background: #fff;
     height: 100vh;
 `
 
-const Footer = styled.div`
+export const Footer = styled.div`
     display: flex;
     input {
         width: 100%;

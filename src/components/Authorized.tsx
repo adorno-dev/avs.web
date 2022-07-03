@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { userAuthenticationChecker, UserContext } from "../contexts/user-context"
+import { userAuthenticationChecker, UserContext } from "../contexts/UserContext"
 
 export const Authorized = () =>
 {
@@ -10,6 +10,7 @@ export const Authorized = () =>
     useEffect(()=> {
         context.authentication = userAuthenticationChecker();
         context.authentication === undefined && navigate("/signin");
+        return;
     }, [context, navigate])
 
     return <></>

@@ -1,6 +1,8 @@
+// TODO: Replace the native fetch to axios.
+
 const tokens = JSON.parse(localStorage.getItem("authentication") as string);
 
-const headers = { "content-type": "application/json", "authorization": "bearer " + tokens.token };
+const headers = { "Content-type": "application/json", "Authorization": "bearer " + tokens?.token };
 
 export const signin = async (data: {[k: string]: FormDataEntryValue}) =>
 {
@@ -25,7 +27,7 @@ export const signup = async (data: {[k: string]: FormDataEntryValue}) =>
     return response;
 }
 
-export const contactList = async () =>
+export const getContactList = async () =>
 {
     const response = await fetch("https://localhost:5000/api/contacts",
     {

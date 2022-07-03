@@ -1,6 +1,6 @@
 import { FormEvent, useContext, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { userAuthenticationChecker, UserContext, userExceptionChecker } from "../contexts/user-context"
+import { userAuthenticationChecker, UserContext, userExceptionChecker } from "../contexts/UserContext"
 
 export const SignUp = () =>
 {

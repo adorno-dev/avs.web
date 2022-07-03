@@ -1,11 +1,12 @@
 import { FormEvent, useContext, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { userAuthenticationChecker, UserContext } from "../contexts/user-context"
+
+import { userAuthenticationChecker, UserContext } from "../contexts/UserContext"
 
 export const SignIn = () =>
 {
-    const context = useContext(UserContext);
-    const navigate = useNavigate();
+    const context = useContext(UserContext)
+    const navigate = useNavigate()
     const handle = async (e: FormEvent<HTMLFormElement>) => {
         await context.signin(e);
         if (context.authentication !== undefined)
