@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react"
-import { getContactList } from "../hooks/UseAPI"
-import { Contact } from "../types/Compose"
-import { ContactList, ContactListItem } from "./Contacts.style"
+import { useContact } from "../hooks/use-contact.hook"
+import { Contact } from "../types/compose.type"
+import { ContactList, ContactListItem } from "./contacts.style"
 
 export const Contacts = ({setContact}: {setContact: (contact: Contact) => void}) =>
 {
     const [contactList, setContactList] = useState<Array<Contact>>([])
 
-    const fetch = async () => setContactList(await getContactList())
+    const {allContacts} = useContact()
+
+    const fetch = async () => setContactList(await allContacts())
 
     useEffect(()=>
     {

@@ -1,5 +1,5 @@
-import { Contact } from "../types/Compose"
-import { Window, Titlebar, Body, Footer } from "./Chat.style"
+import { Contact } from "../types/compose.type"
+import { Window, Titlebar, Body, Footer } from "./chat.style"
 
 export const Chat = ({contact, setContact}: {contact?: Contact, setContact: (contact: Contact) => void}) =>
 {
