@@ -14,7 +14,7 @@ export const Chat = ({contact, setContact}: {contact?: Contact, setContact: (con
             </Body>
             <Footer>
                 <input type="text" placeholder="Your message..." />
-                <button>Toggle</button>
+                <button>Send</button>
             </Footer>
         </Window>
     )

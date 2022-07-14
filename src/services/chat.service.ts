@@ -8,6 +8,14 @@ const allChats = async () => {
     }
 }
 
+const postChatMessage = async () => {
+    try {
+        return (await Api.post("chats", {})).data
+    } catch (exception) {
+        return exception
+    }
+}
+
 export const ChatService = {
     allChats
 }
