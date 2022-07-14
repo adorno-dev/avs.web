@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { TokenService } from "./token.service";
 
 export const Api = axios.create({
@@ -11,5 +11,11 @@ Api.interceptors.request.use((config) => {
         config.headers = {
             "Authorization": `Bearer ${authorization.token}`
         }
+
     return config
+})
+
+Api.interceptors.response.use(undefined, (err: AxiosError) => {
+    if (err.response?.status === 401)
+        TokenService.setTokenLocalStorage(undefined)
 })

@@ -28,7 +28,9 @@ export const AuthenticationProvider = ({children}: {children: ReactNode}) => {
         return !Object.hasOwn(await authService.signUp(signUpRequest), "message")
     }
     const signOut = () => setUndefinedToken()
-    useMemo(() => setToken(getTokenLocalStorage()), [getTokenLocalStorage])
+    useMemo(() => {
+        setToken(getTokenLocalStorage())
+    }, [getTokenLocalStorage])
     return (
         <AuthenticationContext.Provider value={{token, signUp, signIn, signOut}}>
             {children}
