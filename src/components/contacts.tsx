@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useContact } from "../hooks/use-contact.hook"
-import { Contact } from "../types/compose.type"
+import { Contact } from "../types/contact.type"
 import { ContactList, ContactListItem } from "./contacts.style"
 
 export const Contacts = ({setContact}: {setContact: (contact: Contact) => void}) =>
@@ -9,11 +9,11 @@ export const Contacts = ({setContact}: {setContact: (contact: Contact) => void})
 
     const {allContacts} = useContact()
 
-    const fetch = async () => setContactList(await allContacts())
+    const getData = async () => setContactList(await allContacts())
 
     useEffect(()=>
     {
-        fetch()
+        getData()
     }, [])
 
     return <>

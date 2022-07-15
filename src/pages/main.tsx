@@ -4,7 +4,7 @@ import { Authorized } from "../components/authorized.component"
 import { Chat } from "../components/chat"
 import { Contacts } from "../components/contacts"
 import { useAuthentication } from "../hooks/use-authentication.hook"
-import { Contact } from "../types/compose.type"
+import { Contact } from "../types/contact.type"
 import { Brand, Container, Navbar, Placeholder, Search, Toolbar } from "./main.style"
 
 export const Main = () =>

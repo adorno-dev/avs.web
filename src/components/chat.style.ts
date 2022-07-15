@@ -45,6 +45,13 @@ export const Body = styled.div`
     height: 100vh;
 `
 
+export const MessageInfo = styled.div` 
+    margin: 10px;
+    padding: 10px;
+    background: #dcdcdc;
+    border-radius: 10px;
+`
+
 export const Footer = styled.div`
     display: flex;
     input {
