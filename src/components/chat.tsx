@@ -2,7 +2,7 @@ import { FormEvent, useCallback, useMemo, useState } from "react"
 import { useChat } from "../hooks/use-chat.hook"
 import { Message } from "../types/chat.type"
 import { Contact } from "../types/contact.type"
-import { Window, Titlebar, Body, Footer, MessageReceived, MessageSent } from "./chat.style"
+import { Window, Titlebar, Body, Footer, MessageReceived, MessageSent } from "../styles/components/chat.style"
 
 export const Chat = ({contact, setContact}: {contact?: Contact, setContact: (contact: Contact) => void}) =>
 {

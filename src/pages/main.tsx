@@ -5,7 +5,7 @@ import { Chat } from "../components/chat"
 import { Contacts } from "../components/contacts"
 import { useAuthentication } from "../hooks/use-authentication.hook"
 import { Contact } from "../types/contact.type"
-import { Brand, Container, Navbar, Placeholder, Search, Toolbar } from "./main.style"
+import { Brand, Container, Navbar, Placeholder, Search, Toolbar } from "../styles/pages/main.style"
 
 export const Main = () =>
 {

@@ -1,13 +1,5 @@
 import { Api } from "./api.service"
 
-const getChat = async (id: string) => {
-    try {
-        return (await Api.get(`chats/${id}`)).data
-    } catch (exception) {
-        return exception
-    }
-}
-
 const getChatByContact = async (id: string) => {
     try {
         return (await Api.get(`chats/contact/${id}`)).data
