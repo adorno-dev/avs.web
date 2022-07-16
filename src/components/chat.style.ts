@@ -45,11 +45,22 @@ export const Body = styled.div`
     height: 100vh;
 `
 
-export const MessageInfo = styled.div` 
+export const MessageReceived = styled.div` 
     margin: 10px;
     padding: 10px;
-    background: #dcdcdc;
     border-radius: 10px;
+
+    background: #dcdcdc;
+    color: #000;
+`
+
+export const MessageSent = styled.div` 
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+
+    background: #444;
+    color: #fff;
 `
 
 export const Footer = styled.div`
