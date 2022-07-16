@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { useContact } from "../hooks/use-contact.hook"
+import { ContactList, ContactListItem } from "../styles/components/contacts.style"
 import { Contact } from "../types/contact.type"
-import { ContactList, ContactListItem } from "./contacts.style"
 
 export const Contacts = ({setContact}: {setContact: (contact: Contact) => void}) =>
 {
@@ -9,12 +9,12 @@ export const Contacts = ({setContact}: {setContact: (contact: Contact) => void})
 
     const {allContacts} = useContact()
 
-    const getData = async () => setContactList(await allContacts())
+    const getData = useCallback(async () => setContactList(await allContacts()), [allContacts])
 
-    useEffect(()=>
+    useMemo(()=>
     {
         getData()
-    }, [])
+    }, [getData])
 
     return <>
         <ContactList>
