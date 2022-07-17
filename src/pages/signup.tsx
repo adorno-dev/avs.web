@@ -17,7 +17,7 @@ export const SignUp = () =>
     }
     useEffect(() => token && navigate("/"))
     return (
-        <form onSubmit={handleSubmit}>
+        <form className="signUpForm" onSubmit={handleSubmit}>
             <h1>Sign Up</h1>
             <input 
                 value={username}

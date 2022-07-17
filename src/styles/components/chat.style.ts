@@ -43,6 +43,7 @@ export const Titlebar = styled.div`
 export const Body = styled.div`
     background: #fff;
     height: 100vh;
+    overflow-y: auto;
 `
 
 export const MessageReceived = styled.div` 
@@ -73,5 +74,27 @@ export const Footer = styled.div`
     button {
         margin-left: 5px;
         padding: 10px 20px;
+    }
+
+    form {
+        display: flex;
+        width: 100%;
+        input {
+            flex-grow: 1;
+            margin: 10px;
+            border: none;
+            outline: none;
+            border-radius: 15px;
+            font-size: 1em;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 30px;
+            font-size: 1em;
+            border-radius: 20px;
+            border: none;
+            background: #444;
+            color: #fff;
+        }
     }
 `

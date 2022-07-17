@@ -1,5 +1,5 @@
 * {
-    font-family: 'Segoe UI', 'Roboto';
+    font-family: 'Roboto', 'Segoe UI';
     // font-size: 1em;
     box-sizing: border-box;
     margin: 0;
@@ -25,7 +25,8 @@ a {
 
 // 
 
-form {
+form.signInForm,
+form.signUpForm {
 
     h1 {
         margin: 16px;

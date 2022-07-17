@@ -39,8 +39,10 @@ export const Chat = ({contact, setContact}: {contact: Contact, setContact: (cont
                     )}
             </Body>
             <Footer>
-                <input type="text" placeholder="Your message..." value={message} onChange={(e) => setMessage(e.target.value)} />
-                <button onClick={handleSendMessage}>Send</button>
+                <form>
+                    <input type="text" placeholder="Your message..." value={message} onChange={(e) => setMessage(e.target.value)} />
+                    <button disabled={message.length === 0} onClick={handleSendMessage}>Send</button>
+                </form>
             </Footer>
         </Window>
     )
