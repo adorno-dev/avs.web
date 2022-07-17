@@ -1,4 +1,4 @@
-import { FormEvent, useMemo, useState } from "react"
+import { FormEvent, useCallback, useEffect, useState } from "react"
 import { useChat } from "../hooks/use-chat.hook"
 import { Message } from "../types/chat.type"
 import { Contact } from "../types/contact.type"
@@ -6,7 +6,7 @@ import { Window, Titlebar, Body, Footer, MessageReceived, MessageSent } from "..
 
 export const Chat = ({contact, setContact}: {contact: Contact, setContact: (contact: Contact) => void}) =>
 {
-    const service = useChat()
+    const {getChatByContact, sendMessage} = useChat()
 
     const [message, setMessage] = useState<string>("")
 
@@ -14,28 +14,17 @@ export const Chat = ({contact, setContact}: {contact: Contact, setContact: (cont
 
     const handleSendMessage = (e: FormEvent) => {
         e.preventDefault()
-        service.sendMessage(contact.id, message)
-        // setMessages((previous) => [...previous, {body: message} as Message])
+        sendMessage(contact.id, message).then(getMessages)
         setMessage("")
     }
 
-    // const fetchData = () => {
-    //     // if (contact?.id) {
-    //         service.getChatByContact(contact.id).then((ms) => setMessages(ms))
-    //     // }
-    // }
+    const getMessages = useCallback(() => {
+        getChatByContact(contact.id).then((chat) => setMessages(chat.messages))
+    }, [getChatByContact, contact.id])
 
-    // useEffect(() => {
-    //     if (contact?.id)
-    //         service.getChatByContact(contact.id)
-    //                .then((messages) => setMessage(messages))
-    // }, [service, contact?.id])
-
-    // useEffect(() => fetchData(), [])
-
-    useMemo(() => {
-        service.getChatByContact(contact.id).then((chat) => setMessages(chat.messages))
-    }, [contact.id])
+    useEffect(() => {
+        getMessages()
+    }, [getMessages])
 
     return (
         <Window>
