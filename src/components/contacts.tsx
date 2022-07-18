@@ -9,19 +9,26 @@ export const Contacts = ({setContact}: {setContact: (contact: Contact) => void})
 
     const {allContacts} = useContact()
 
-    const getData = useCallback(async () => setContactList(await allContacts()), [allContacts])
+    const getContacts = useCallback(async () => {
+        allContacts().then((contacts) => setContactList(contacts))
+    }, [allContacts])
 
     useMemo(()=>
     {
-        getData()
-    }, [getData])
+        getContacts()
+    }, [getContacts])
 
-    return <>
+    return (
         <ContactList>
             <h3>Contacts</h3>
             <div>
-                {contactList.map(m =><ContactListItem onClick={()=>setContact(m)} key={m.id}>{m.username}</ContactListItem>)}
+                {
+                    contactList !== undefined && contactList.length > 0 && contactList.map(m =>
+                        <ContactListItem onClick={()=>setContact(m)} key={m.id}>
+                            {m.username}
+                        </ContactListItem>)
+                }
             </div>
         </ContactList>
-    </>
+    )
 }

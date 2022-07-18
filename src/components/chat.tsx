@@ -1,4 +1,4 @@
-import { FormEvent, useCallback, useEffect, useState } from "react"
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react"
 import { useChat } from "../hooks/use-chat.hook"
 import { Message } from "../types/chat.type"
 import { Contact } from "../types/contact.type"
@@ -18,8 +18,18 @@ export const Chat = ({contact, setContact}: {contact: Contact, setContact: (cont
         setMessage("")
     }
 
-    const getMessages = useCallback(() => {
-        getChatByContact(contact.id).then((chat) => setMessages(chat.messages))
+    const refMessages = useRef<HTMLDivElement>(null)
+
+    const scrollToBottom = () => {
+        const timeout = setTimeout(() => {
+            refMessages.current?.scrollIntoView({behavior: 'smooth'})
+            clearTimeout(timeout)
+        }, 1)        
+    }
+
+    const getMessages = useCallback(async () => {
+        await getChatByContact(contact.id).then((chat) => setMessages(chat.messages))
+        scrollToBottom()
     }, [getChatByContact, contact.id])
 
     useEffect(() => {
@@ -37,6 +47,7 @@ export const Chat = ({contact, setContact}: {contact: Contact, setContact: (cont
                     <MessageSent key={m.id}>{m.body}</MessageSent> :
                     <MessageReceived key={m.id}>{m.body}</MessageReceived>
                     )}
+                <div ref={refMessages} />
             </Body>
             <Footer>
                 <form>
