@@ -1,5 +1,4 @@
 import axios, { AxiosError } from "axios";
-import { useAuthentication } from "../hooks/use-authentication.hook";
 import { TokenService } from "./token.service";
 
 export const Api = axios.create({
