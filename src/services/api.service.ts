@@ -1,4 +1,5 @@
 import axios, { AxiosError } from "axios";
+import { useAuthentication } from "../hooks/use-authentication.hook";
 import { TokenService } from "./token.service";
 
 export const Api = axios.create({
@@ -15,7 +16,22 @@ Api.interceptors.request.use((config) => {
     return config
 })
 
-Api.interceptors.response.use(undefined, (err: AxiosError) => {
-    if (err.response?.status === 401)
-        TokenService.setTokenLocalStorage(undefined)
-})
+Api.interceptors.response.use(
+    undefined,
+    (e: AxiosError) => {
+        const status = e.response?.status as number
+        console.log(status)
+        if (status === 401) {
+            TokenService.setTokenLocalStorage(undefined)
+        }
+    })
+
+// Api.interceptors.response.use(undefined, (err: AxiosError) => {
+//     const {setUndefinedToken} = useAuthentication()
+//     if (err.response?.status === 401)
+//         // TokenService.setTokenLocalStorage(undefined)
+//         {
+//             console.log("[Unauthorized]")
+//             setUndefinedToken()
+//         }    
+// })

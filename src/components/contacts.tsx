@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useContact } from "../hooks/use-contact.hook"
 import { ContactList, ContactListItem } from "../styles/components/contacts.style"
 import { Contact } from "../types/contact.type"
@@ -13,8 +13,7 @@ export const Contacts = ({setContact}: {setContact: (contact: Contact) => void})
         allContacts().then((contacts) => setContactList(contacts))
     }, [allContacts])
 
-    useMemo(()=>
-    {
+    useEffect(() => {
         getContacts()
     }, [getContacts])
 

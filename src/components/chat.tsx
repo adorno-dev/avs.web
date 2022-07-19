@@ -1,12 +1,15 @@
-import { FormEvent, useCallback, useEffect, useRef, useState } from "react"
+import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useChat } from "../hooks/use-chat.hook"
 import { Message } from "../types/chat.type"
 import { Contact } from "../types/contact.type"
 import { Window, Titlebar, Body, Footer, MessageReceived, MessageSent } from "../styles/components/chat.style"
+import { useDraggable } from "../utils/use-draggable"
 
 export const Chat = ({contact, setContact}: {contact: Contact, setContact: (contact: Contact) => void}) =>
 {
     const {getChatByContact, sendMessage} = useChat()
+
+    const {dragElement} = useDraggable()
 
     const [message, setMessage] = useState<string>("")
 
@@ -17,6 +20,8 @@ export const Chat = ({contact, setContact}: {contact: Contact, setContact: (cont
         sendMessage(contact.id, message).then(getMessages)
         setMessage("")
     }
+
+    const refWindow = useRef<HTMLDivElement>(null)
 
     const refMessages = useRef<HTMLDivElement>(null)
 
@@ -30,6 +35,9 @@ export const Chat = ({contact, setContact}: {contact: Contact, setContact: (cont
     const getMessages = useCallback(async () => {
         await getChatByContact(contact.id).then((chat) => setMessages(chat.messages))
         scrollToBottom()
+
+        dragElement(refWindow.current as HTMLElement)
+
     }, [getChatByContact, contact.id])
 
     useEffect(() => {
@@ -37,8 +45,8 @@ export const Chat = ({contact, setContact}: {contact: Contact, setContact: (cont
     }, [getMessages])
 
     return (
-        <Window>
-            <Titlebar>
+        <Window ref={refWindow}>
+            <Titlebar className="draggable-header">
                 <h3>{contact?.username}</h3>
                 <h3 style={{cursor: "pointer"}} onClick={()=>setContact({id: "", username: ""})}>X</h3>
             </Titlebar>

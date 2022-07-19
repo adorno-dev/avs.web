@@ -5,15 +5,8 @@ export const Window = styled.div`
     flex-direction: column;
     position: absolute;
 
-
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
+    left: calc((100vw / 2) - 275px);
+    top: calc((100vh / 2) - 175px);
 
     justify-self: center;
 
