@@ -1,6 +1,4 @@
-import { AxiosError } from "axios";
 import { Tokens } from "../types/authentication.context.type";
-import { ErrorResponse } from "../types/authentication.type";
 import { ApiService } from "./api.service";
 
 export class ContactService extends ApiService {
@@ -8,10 +6,8 @@ export class ContactService extends ApiService {
         super(tokens)
     }
     async getContacts() {
-        try {
-            return (await this.api.get("contacts")).data
-        } catch (exception) {
-            return ((exception as AxiosError).response)?.data as ErrorResponse
-        }
+        return await this.api.get("contacts")
+            .then(res => res.data)
+            .catch(err => err.response)
     }
 }

@@ -5,11 +5,13 @@ import { Window, Titlebar, Body, Footer, MessageReceived, MessageSent } from "..
 import { useDraggable } from "../utils/use-draggable"
 import { ChatService } from "../services/chat.service"
 
+const chatService = new ChatService()
+
 export const Chat = ({contact, setContact}: {contact: Contact, setContact: (contact: Contact) => void}) =>
 {
-    const chatService = new ChatService()
+    const refWindow = useRef<HTMLDivElement>(null)
 
-    const {dragElement} = useDraggable()
+    const refMessages = useRef<HTMLDivElement>(null)
 
     const [message, setMessage] = useState<string>("")
 
@@ -20,33 +22,24 @@ export const Chat = ({contact, setContact}: {contact: Contact, setContact: (cont
         chatService
             .sendMessage(contact.id, message)
             .then(getMessages)
-            .then(() => setMessage(""))
+        setMessage("")
     }
 
-    const refWindow = useRef<HTMLDivElement>(null)
-
-    const refMessages = useRef<HTMLDivElement>(null)
-
-    const scrollToBottom = () => {
-        const timeout = setTimeout(() => {
-            refMessages.current?.scrollIntoView({behavior: 'smooth'})
-            clearTimeout(timeout)
-        }, 1)        
-    }
+    const scrollToBottom = () => refMessages.current?.scrollIntoView({behavior: 'smooth'})
 
     const getMessages = useCallback(async () => {
-        chatService
-            .getChat(contact.id)        
-            .then(chat => setMessages(chat.messages))
+        await chatService
+            .getChat(contact.id)
+            .then((chat) => setMessages(chat.messages))
+    }, [contact.id])
 
-        scrollToBottom()
-        dragElement(refWindow.current as HTMLElement)
-
-    }, [])
+    useDraggable(refWindow)
 
     useEffect(() => {
         getMessages()
     }, [getMessages])
+
+    useEffect(() => scrollToBottom())
 
     return (
         <Window ref={refWindow}>

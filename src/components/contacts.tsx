@@ -1,23 +1,19 @@
-import { useCallback, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { ContactService } from "../services/contact.service"
 import { ContactList, ContactListItem } from "../styles/components/contacts.style"
 import { Contact } from "../types/contact.type"
 
+const contactService = new ContactService()
+
 export const Contacts = ({setContact}: {setContact: (contact: Contact) => void}) =>
-{    
+{
     const [contacts, setContacts] = useState<Array<Contact>>([])
 
-    const contactService = new ContactService()
-
-    const getContacts = useCallback(() => {
+    useEffect(() => {
         contactService
             .getContacts()
-            .then(receivedContacts => setContacts(receivedContacts))
+            .then(setContacts)
     }, [])
-
-    useEffect(() => {
-        getContacts()
-    }, [getContacts])
 
     return (
         <ContactList>

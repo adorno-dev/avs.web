@@ -1,4 +1,6 @@
-export const useDraggable = () => {
+import { RefObject } from "react"
+
+export const useDraggable = (target: RefObject<HTMLElement>) => {
 
     function dragElement(element: HTMLElement) {
 
@@ -44,7 +46,6 @@ export const useDraggable = () => {
         }
     }
 
-    return {
-        dragElement
-    }
+    if (target.current)
+        dragElement(target.current as HTMLElement)
 }

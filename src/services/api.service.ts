@@ -1,13 +1,13 @@
 import axios, { AxiosError } from "axios";
 import { Tokens } from "../types/authentication.context.type";
-import { TokenService } from "./token.service";
+import { TokenService as tokenService } from "./token.service";
 
 export class ApiService {
     protected api = axios.create({
         baseURL: "https://localhost:5000/api/"
     })
     constructor(tokens?: Tokens) {
-        tokens = TokenService.getTokenLocalStorage()
+        tokens = tokenService.getTokenLocalStorage()
         this.api.interceptors.request.use((config) => {
             if (tokens) 
                 config.headers = {"Authorization":`Bearer ${tokens.token}`}
@@ -17,6 +17,8 @@ export class ApiService {
             undefined, (exception: AxiosError) => {
                 if (exception.response?.status === 401) {
                     console.log(exception.response)
+                    // tokenService.setTokenLocalStorage(undefined)
+                    // window.location.href = "/signin"
                 }
             }
         )

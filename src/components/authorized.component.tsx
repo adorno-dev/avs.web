@@ -1,12 +1,15 @@
-import { useNavigate } from "react-router-dom"
 import { ReactNode, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import { useAuthentication } from "../hooks/use-authentication.hook"
 
 export const Authorized = ({children}: {children: ReactNode}) => {
-    const context = useAuthentication()
+    const {tokens} = useAuthentication()
     const navigate = useNavigate()
     useEffect(() => {
-        context.tokens === undefined && navigate("signin")
-    }, [context, navigate])
+        function hasToken() {
+            tokens === undefined && navigate("signin")
+        }
+        hasToken()
+    }, [tokens, navigate])
     return <>{children}</>
 }

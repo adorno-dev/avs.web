@@ -11,7 +11,7 @@ export const Main = () =>
 {
     const context = useAuthentication()
     const [contact, setContact] = useState<Contact>()
-    return <>
+    return (
         <Authorized>
             <Container>
                 <Navbar>
@@ -29,5 +29,5 @@ export const Main = () =>
                 }
             </Container>
         </Authorized>
-    </>
+    )
 }
