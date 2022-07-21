@@ -4,7 +4,7 @@ import { useAuthentication } from "../hooks/use-authentication.hook"
 
 export const SignIn = () =>
 {
-    const {token, signIn} = useAuthentication()
+    const {tokens, signIn} = useAuthentication()
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const navigate = useNavigate()
@@ -13,7 +13,7 @@ export const SignIn = () =>
         if (await signIn({email, password}))
             navigate("/")
     }
-    useEffect(() => token && navigate("/"))
+    useEffect(() => tokens && navigate("/"))
     return (
         <form className="signInForm" onSubmit={handleSubmit}>
             <h1>Sign In</h1>

@@ -1,13 +1,13 @@
-import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { useChat } from "../hooks/use-chat.hook"
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react"
 import { Message } from "../types/chat.type"
 import { Contact } from "../types/contact.type"
 import { Window, Titlebar, Body, Footer, MessageReceived, MessageSent } from "../styles/components/chat.style"
 import { useDraggable } from "../utils/use-draggable"
+import { ChatService } from "../services/chat.service"
 
 export const Chat = ({contact, setContact}: {contact: Contact, setContact: (contact: Contact) => void}) =>
 {
-    const {getChatByContact, sendMessage} = useChat()
+    const chatService = new ChatService()
 
     const {dragElement} = useDraggable()
 
@@ -17,8 +17,10 @@ export const Chat = ({contact, setContact}: {contact: Contact, setContact: (cont
 
     const handleSendMessage = (e: FormEvent) => {
         e.preventDefault()
-        sendMessage(contact.id, message).then(getMessages)
-        setMessage("")
+        chatService
+            .sendMessage(contact.id, message)
+            .then(getMessages)
+            .then(() => setMessage(""))
     }
 
     const refWindow = useRef<HTMLDivElement>(null)
@@ -33,12 +35,14 @@ export const Chat = ({contact, setContact}: {contact: Contact, setContact: (cont
     }
 
     const getMessages = useCallback(async () => {
-        await getChatByContact(contact.id).then((chat) => setMessages(chat.messages))
-        scrollToBottom()
+        chatService
+            .getChat(contact.id)        
+            .then(chat => setMessages(chat.messages))
 
+        scrollToBottom()
         dragElement(refWindow.current as HTMLElement)
 
-    }, [getChatByContact, contact.id])
+    }, [])
 
     useEffect(() => {
         getMessages()

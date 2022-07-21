@@ -1,11 +1,10 @@
 import { SignInRequest, SignInResponse, SignUpRequest } from "./authentication.type"
 
 export type Authentication = {
-    token?: Token,
+    tokens?: Tokens,
     signUp: (signUpRequest: SignUpRequest) => Promise<boolean>,
     signIn: (signInRequest: SignInRequest) => Promise<boolean>,
     signOut: () => void,
-    setUndefinedToken: () => void
 }
 
-export interface Token extends SignInResponse {}
+export interface Tokens extends SignInResponse {}

@@ -4,9 +4,10 @@ import { useAuthentication } from "../hooks/use-authentication.hook"
 
 export const Authorized = ({children}: {children: ReactNode}) => {
     const context = useAuthentication()
+    // const {tokens} = useAuthentication()
     const navigate = useNavigate()
     useEffect(() => {
-        context.token === undefined && navigate("signin")
+        context.tokens === undefined && navigate("signin")
     }, [context, navigate])
     return <>{children}</>
 }

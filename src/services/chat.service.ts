@@ -1,22 +1,22 @@
-import { Api } from "./api.service"
+import { Tokens } from "../types/authentication.context.type";
+import { ApiService } from "./api.service";
 
-const getChatByContact = async (id: string) => {
-    try {
-        return (await Api.get(`chats/contact/${id}`)).data
-    } catch (exception) {
-        return exception
+export class ChatService extends ApiService {
+    constructor(tokens?: Tokens) {
+        super(tokens)
     }
-}
-
-const sendMessage = async (to: string, body: string) => {
-    try {
-        return (await Api.post("message", {to, body})).data
-    } catch (exception) {
-        return exception
+    async getChat(contactId: string) {
+        try {
+            return (await this.api.get(`chats/contact/${contactId}`)).data
+        } catch (exception) {
+            console.error(exception)
+        }
     }
-}
-
-export const ChatService = {
-    getChatByContact,
-    sendMessage
+    async sendMessage(to: string, body: string) {
+        try {
+            return (await this.api.post("message", {to, body}))
+        } catch (exception) {
+            console.error(exception)
+        }
+    }
 }

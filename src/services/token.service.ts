@@ -1,12 +1,12 @@
-import { Token } from "../types/authentication.context.type"
+import { Tokens } from "../types/authentication.context.type"
 
 const getTokenLocalStorage = () => {
     const token = localStorage.getItem("t")
     return token ? 
-        JSON.parse(token) as Token : undefined
+        JSON.parse(token) as Tokens : undefined
 }
 
-const setTokenLocalStorage = (token: Token | undefined) => {
+const setTokenLocalStorage = (token: Tokens | undefined) => {
     token ?
         localStorage.setItem("t", JSON.stringify(token)) :
         localStorage.removeItem("t")

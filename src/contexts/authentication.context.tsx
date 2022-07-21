@@ -1,51 +1,50 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { AuthenticationService as authService } from "../services/authentication.service"
-import { TokenService as tokenService } from "../services/token.service"
-import { Authentication, Token } from "../types/authentication.context.type"
+import { AuthenticationService, AuthenticationService as authService } from "../services/authentication.service"
+import { TokenService } from "../services/token.service";
+import { Authentication, Tokens } from "../types/authentication.context.type"
 import { SignUpRequest, SignInRequest } from "../types/authentication.type"
 
 export const AuthenticationContext = createContext<Authentication | undefined>(undefined)
 
 export const AuthenticationProvider = ({children}: {children: ReactNode}) => {
 
-    const {getTokenLocalStorage, setTokenLocalStorage} = tokenService
+    const authenticationService = new AuthenticationService()
 
-    const [token, setToken] = useState<Token>()
+    const {getTokenLocalStorage, setTokenLocalStorage} = TokenService
 
-    const setUndefinedToken = () => {
-        setToken(undefined)
-        setTokenLocalStorage(undefined)
-    }
+    const [tokens, setTokens] = useState<Tokens>()
 
     const signIn = async (signInRequest: SignInRequest) => {
-        const accessToken = await authService.signIn(signInRequest) as Token
-        if (Object.hasOwn(accessToken, "token")) {
-            setToken(accessToken)
-            setTokenLocalStorage(accessToken)
+        const receivedToken = await authenticationService.signIn(signInRequest)
+        if (Object.hasOwn(receivedToken, "token")) {
+            setTokens(receivedToken)
+            setTokenLocalStorage(receivedToken)
             return true
         } else {
-            setUndefinedToken()
+            setTokens(undefined)
+            setTokenLocalStorage(undefined)
             return false
         }
     }
 
     const signUp = async (signUpRequest: SignUpRequest) => {
-        return !Object.hasOwn(await authService.signUp(signUpRequest), "message")
+        let signedUp = false;
+        await authenticationService
+            .signUp(signUpRequest)
+            .then(() => signedUp = true)
+            .catch(() => signedUp = false)
+        return signedUp
     }
 
-    const signOut = () => setUndefinedToken()
+    const signOut = () => {
+        setTokens(undefined)
+        setTokenLocalStorage(undefined)
+    }
 
-    // useMemo(() => {
-    //     setToken(getTokenLocalStorage())
-    // }, [getTokenLocalStorage])
-
-    useEffect(() => {
-        console.log("[authentication.context]")
-        setToken(getTokenLocalStorage())
-    }, [getTokenLocalStorage])
+    // useEffect(() => setTokens(getTokenLocalStorage()))
 
     return (
-        <AuthenticationContext.Provider value={{token: getTokenLocalStorage(), signUp, signIn, signOut, setUndefinedToken}}>
+        <AuthenticationContext.Provider value={{tokens, signUp, signIn, signOut}}>
             {children}
         </AuthenticationContext.Provider>
     )

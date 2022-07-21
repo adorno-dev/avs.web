@@ -1,24 +1,23 @@
-import { AxiosError } from "axios";
-import { ErrorResponse, SignInRequest, SignInResponse, SignUpRequest } from "../types/authentication.type";
-import { Api } from "./api.service";
+import { Tokens } from "../types/authentication.context.type";
+import { SignInRequest, SignUpRequest } from "../types/authentication.type";
+import { ApiService } from "./api.service";
 
-const signIn = async (signInRequest: SignInRequest) => {
-    try {
-        return (await Api.post("sign-in", signInRequest)).data as SignInResponse
-    } catch (exception) {
-        return ((exception as AxiosError).response)?.data as ErrorResponse
+export class AuthenticationService extends ApiService {
+    constructor(tokens?: Tokens) {
+        super(tokens)
     }
-}
-
-const signUp = async (signUpRequest: SignUpRequest) => {
-    try {
-        return (await Api.post("sign-up", signUpRequest)).data as SignUpRequest
-    } catch (exception) {
-        return ((exception as AxiosError).response)?.data as ErrorResponse
+    async signIn(signInRequest: SignInRequest) {
+        try {
+            return (await this.api.post("sign-in", signInRequest)).data
+        } catch (exception) {
+            return exception
+        }
     }
-}
-
-export const AuthenticationService = {
-    signIn,
-    signUp
+    async signUp(signUpRequest: SignUpRequest) {
+        try {
+            return (await this.api.post("sign-up", signUpRequest)).data
+        } catch (exception) {
+            return exception
+        }
+    }
 }

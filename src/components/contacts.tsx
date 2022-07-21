@@ -1,17 +1,19 @@
 import { useCallback, useEffect, useState } from "react"
-import { useContact } from "../hooks/use-contact.hook"
+import { ContactService } from "../services/contact.service"
 import { ContactList, ContactListItem } from "../styles/components/contacts.style"
 import { Contact } from "../types/contact.type"
 
 export const Contacts = ({setContact}: {setContact: (contact: Contact) => void}) =>
-{
-    const [contactList, setContactList] = useState<Array<Contact>>([])
+{    
+    const [contacts, setContacts] = useState<Array<Contact>>([])
 
-    const {allContacts} = useContact()
+    const contactService = new ContactService()
 
-    const getContacts = useCallback(async () => {
-        allContacts().then((contacts) => setContactList(contacts))
-    }, [allContacts])
+    const getContacts = useCallback(() => {
+        contactService
+            .getContacts()
+            .then(receivedContacts => setContacts(receivedContacts))
+    }, [])
 
     useEffect(() => {
         getContacts()
@@ -22,7 +24,7 @@ export const Contacts = ({setContact}: {setContact: (contact: Contact) => void})
             <h3>Contacts</h3>
             <div>
                 {
-                    contactList !== undefined && contactList.length > 0 && contactList.map(m =>
+                    contacts !== undefined && contacts.length > 0 && contacts.map(m =>
                         <ContactListItem onClick={()=>setContact(m)} key={m.id}>
                             {m.username}
                         </ContactListItem>)
