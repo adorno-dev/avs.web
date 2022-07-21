@@ -1,5 +1,5 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
-import { AuthenticationService, AuthenticationService as authService } from "../services/authentication.service"
+import { createContext, ReactNode, useCallback, useEffect, useState } from "react";
+import { AuthenticationService } from "../services/authentication.service"
 import { TokenService } from "../services/token.service";
 import { Authentication, Tokens } from "../types/authentication.context.type"
 import { SignUpRequest, SignInRequest } from "../types/authentication.type"
@@ -41,7 +41,11 @@ export const AuthenticationProvider = ({children}: {children: ReactNode}) => {
         setTokenLocalStorage(undefined)
     }
 
-    // useEffect(() => setTokens(getTokenLocalStorage()))
+    const getSavedToken = useCallback(() => {
+        setTokens(getTokenLocalStorage())
+    }, [])
+
+    useEffect(() => getSavedToken(), [])
 
     return (
         <AuthenticationContext.Provider value={{tokens, signUp, signIn, signOut}}>
