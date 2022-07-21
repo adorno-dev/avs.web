@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useCallback, useEffect, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 import { AuthenticationService } from "../services/authentication.service"
 import { TokenService } from "../services/token.service";
 import { Authentication, Tokens } from "../types/authentication.context.type"
@@ -6,9 +6,9 @@ import { SignUpRequest, SignInRequest } from "../types/authentication.type"
 
 export const AuthenticationContext = createContext<Authentication | undefined>(undefined)
 
-export const AuthenticationProvider = ({children}: {children: ReactNode}) => {
+const authenticationService = new AuthenticationService()
 
-    const authenticationService = new AuthenticationService()
+export const AuthenticationProvider = ({children}: {children: ReactNode}) => {
 
     const {getTokenLocalStorage, setTokenLocalStorage} = TokenService
 
@@ -41,11 +41,12 @@ export const AuthenticationProvider = ({children}: {children: ReactNode}) => {
         setTokenLocalStorage(undefined)
     }
 
-    const getSavedToken = useCallback(() => {
-        setTokens(getTokenLocalStorage())
-    }, [])
-
-    useEffect(() => getSavedToken(), [])
+    useEffect(() => {
+        function retrieveTokens() {
+            setTokens(getTokenLocalStorage())
+        }
+        retrieveTokens()
+    }, [getTokenLocalStorage])
 
     return (
         <AuthenticationContext.Provider value={{tokens, signUp, signIn, signOut}}>
