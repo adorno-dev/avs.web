@@ -4,8 +4,10 @@ import { Contact } from "../types/contact.type"
 import { Window, Titlebar, Body, Footer, MessageReceived, MessageSent } from "../styles/components/chat.style"
 import { useDraggable } from "../utils/use-draggable"
 import { ChatService } from "../services/chat.service"
+import { ChatRealtimeService } from "../services/chat-realtime.service"
 
 const chatService = new ChatService()
+const chatRealtimeService = new ChatRealtimeService()
 
 export const Chat = ({contact, setContact}: {contact: Contact, setContact: (contact: Contact) => void}) =>
 {
@@ -17,11 +19,14 @@ export const Chat = ({contact, setContact}: {contact: Contact, setContact: (cont
 
     const [messages, setMessages] = useState<Message[]>([])
 
-    const handleSendMessage = (e: FormEvent) => {
+    const handleSendMessage = async (e: FormEvent) => {
         e.preventDefault()
-        chatService
+        await chatService
             .sendMessage(contact.id, message)
             .then(getMessages)
+        
+        await chatRealtimeService.send({timestamp: new Date(Date.now()), id: "12323", sender_id: contact.id, body: message})
+        
         setMessage("")
     }
 
@@ -34,6 +39,15 @@ export const Chat = ({contact, setContact}: {contact: Contact, setContact: (cont
     }, [contact.id])
 
     useDraggable(refWindow)
+
+    useEffect(() => {
+        async function watch() {
+            await chatRealtimeService
+            .start()
+        }
+
+        watch()
+    }, [])
 
     useEffect(() => {
         getMessages()
