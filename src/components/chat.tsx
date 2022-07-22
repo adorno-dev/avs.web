@@ -26,7 +26,7 @@ export const Chat = ({contact, setContact}: {contact: Contact, setContact: (cont
             .then(getMessages)
         
         await chatRealtimeService.send({timestamp: new Date(Date.now()), id: "12323", sender_id: contact.id, body: message})
-        
+
         setMessage("")
     }
 
