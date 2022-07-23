@@ -5,9 +5,10 @@ import { Window, Titlebar, Body, Footer, MessageReceived, MessageSent } from "..
 import { useDraggable } from "../utils/use-draggable"
 import { ChatService } from "../services/chat.service"
 import { ChatRealtimeService } from "../services/chat-realtime.service"
+import { TokenService } from "../services/token.service"
 
 const chatService = new ChatService()
-const chatRealtimeService = new ChatRealtimeService()
+const chatRealtimeService = new ChatRealtimeService(TokenService.getTokenLocalStorage())
 
 export const Chat = ({contact, setContact}: {contact: Contact, setContact: (contact: Contact) => void}) =>
 {
