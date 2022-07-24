@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { Authorized } from "../components/authorized.component"
 import { Chat } from "../components/chat"
@@ -6,11 +6,21 @@ import { Contacts } from "../components/contacts"
 import { useAuthentication } from "../hooks/use-authentication.hook"
 import { Contact } from "../types/contact.type"
 import { Brand, Container, Navbar, Placeholder, Search, Toolbar } from "../styles/pages/main.style"
+import { ChatRealtimeService } from "../services/chat-realtime.service"
+import { TokenService } from "../services/token.service"
+
+let onReceivedMessage: any
+
+const chatRealtimeService = new ChatRealtimeService(TokenService.getTokenLocalStorage(), onReceivedMessage)
 
 export const Main = () =>
 {
     const context = useAuthentication()
     const [contact, setContact] = useState<Contact>()
+    useEffect(()=>{
+        chatRealtimeService.start()
+    })
+
     return (
         <Authorized>
             <Container>
@@ -25,7 +35,7 @@ export const Main = () =>
                     <Contacts setContact={setContact} />
                 </Placeholder>
                 {
-                    contact?.id && <Chat contact={contact} setContact={setContact} />
+                    contact?.id && <Chat contact={contact} setContact={setContact} onReceivedMessage={onReceivedMessage} />
                 }
             </Container>
         </Authorized>
