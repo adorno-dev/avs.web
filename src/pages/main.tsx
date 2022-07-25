@@ -34,9 +34,7 @@ export const Main = () =>
                 <Placeholder>
                     <Contacts setContact={setContact} />
                 </Placeholder>
-                {
-                    contact?.id && <Chat contact={contact} setContact={setContact} onReceivedMessage={onReceivedMessage} />
-                }
+                { contact?.id && <Chat contact={contact} setContact={setContact} onReceivedMessage={onReceivedMessage} /> }
             </Container>
         </Authorized>
     )

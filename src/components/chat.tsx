@@ -46,7 +46,7 @@ export const Chat = ({contact, setContact, onReceivedMessage}: {contact: Contact
     useEffect(() => scrollToBottom())
 
     onReceivedMessage = (message: Message) => {
-        console.log("[chat.tsx]", message)
+        console.log(message)
     }
 
     return (

@@ -4,7 +4,7 @@ import {Message} from "../types/chat.type"
 
 export class ChatRealtimeService {
     public connection: signalr.HubConnection
-    constructor(tokens?: Tokens, onReceiveMessage?: any) {
+    constructor(tokens?: Tokens, onReceiveMessage?: (...args: any[]) => void) {
         this.connection = new signalr.HubConnectionBuilder()
             .withUrl("https://localhost:5000/chatHub", { 
                 skipNegotiation: true, 
