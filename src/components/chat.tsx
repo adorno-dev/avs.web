@@ -4,13 +4,10 @@ import { Contact } from "../types/contact.type"
 import { Window, Titlebar, Body, Footer, MessageReceived, MessageSent } from "../styles/components/chat.style"
 import { useDraggable } from "../utils/use-draggable"
 import { ChatService } from "../services/chat.service"
-// import { ChatRealtimeService } from "../services/chat-realtime.service"
-// import { TokenService } from "../services/token.service"
 
 const chatService = new ChatService()
-// const chatRealtimeService = new ChatRealtimeService(TokenService.getTokenLocalStorage())
 
-export const Chat = ({contact, setContact, onReceivedMessage}: {contact: Contact, setContact: (contact: Contact) => void, onReceivedMessage: (message: Message) => void}) =>
+export const Chat = ({connection, contact, setContact}: {connection: any, contact: Contact, setContact: (contact: Contact) => void}) =>
 {
     const refWindow = useRef<HTMLDivElement>(null)
 
@@ -45,9 +42,11 @@ export const Chat = ({contact, setContact, onReceivedMessage}: {contact: Contact
 
     useEffect(() => scrollToBottom())
 
-    onReceivedMessage = (message: Message) => {
-        console.log(message)
-    }
+    useEffect(() => {
+        connection.on("ReceivedMessage", (message: Message) => {
+            setMessages(prev => [...prev, message])
+        })
+    }, [connection])
 
     return (
         <Window ref={refWindow}>

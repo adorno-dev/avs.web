@@ -9,9 +9,7 @@ import { Brand, Container, Navbar, Placeholder, Search, Toolbar } from "../style
 import { ChatRealtimeService } from "../services/chat-realtime.service"
 import { TokenService } from "../services/token.service"
 
-let onReceivedMessage: any
-
-const chatRealtimeService = new ChatRealtimeService(TokenService.getTokenLocalStorage(), onReceivedMessage)
+const chatRealtimeService = new ChatRealtimeService(TokenService.getTokenLocalStorage())
 
 export const Main = () =>
 {
@@ -34,7 +32,7 @@ export const Main = () =>
                 <Placeholder>
                     <Contacts setContact={setContact} />
                 </Placeholder>
-                { contact?.id && <Chat contact={contact} setContact={setContact} onReceivedMessage={onReceivedMessage} /> }
+                { contact?.id && <Chat contact={contact} setContact={setContact} connection={chatRealtimeService.connection} /> }
             </Container>
         </Authorized>
     )
