@@ -44,7 +44,7 @@ export const Chat = ({connection, contact, setContact}: {connection: any, contac
 
     useEffect(() => {
         connection.on("ReceivedMessage", (message: Message) => {
-            setMessages(prev => [...prev, message])
+            setMessages(prev => prev !== undefined ? [...prev, message]: [])
         })
     }, [connection])
 
